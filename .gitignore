@@ -7,6 +7,7 @@
 .env
 *.pyc
 *.pyo
+.DS_Store
 __pycache__/
 */__pycache__/
 */*/__pycache__/
