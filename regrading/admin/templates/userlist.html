@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% include "nav.html" %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <h1 style="text-align:center">Employee list</h1>
+    {% if current_user.admin %}
+    <div class="table-responsive-sm">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Firstname</th>
+                    <th scope="col">Lastname</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Admin</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.active }}</td>
+                    <td>{{ user.admin }}</td>
+                    <td>
+                        <a href="{{ url_for('admin_bp.useredit') }}/{{ user.id }}">Edit</a>
+                        <br>
+                        <a href="{{ url_for('admin_bp.useredit') }}/{{ user.id }}?reset=y">ResetPwd</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div>
+        <a href="{{ url_for('admin_bp.signup') }}">Add User</a>
+    </div>
+    {% else %}
+    <h4 style="text-align:cener">Only Administrator can list users!</h4>
+    {% endif %}
+
+</div> <!-- /container -->
+{% endblock %}

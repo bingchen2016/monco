@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "nav.html" %}
+<div class="container">
+    {% if current_user.is_authenticated %}
+    <h1>Hi {{ current_user.firstname }}!</h1>
+    <br><br>
+    <h2>Complete your <a href="{{ url_for('auth_bp.regrade') }}">Regrade now</a></h2>
+    <br>
+    <h2>Or edit your <a href="{{ url_for('profile_bp.user_profile')}}"> Profile</a></h2>
+    <br>
+    <h2>Or just <a href="{{ url_for('auth_bp.logout') }}">Log out</a></h2>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-ligth">
+  <a class="navbar-brand" href="#">
+    <img src="{{ url_for('static', filename='img/logo.png') }}" width="30" height="30" alt="logo" loading="lazy">
+  </a>
+  <button class="navbar-toggler" type="button" data-trigger="#main_nav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="navbar-collapse" id="main_nav">
+    <div class="offcanvas-header mt-3">
+      <button class="btn btn-outline-danger btn-close float-right"> &times Close </button>
+      <h5 class="py-2 text-black">Main menu</h5>
+    </div>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth_bp.regrade') }}">Regrade</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth_bp.report') }}">Report</a></li>
+      {% if current_user.is_authenticated and current_user.admin %}
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_bp.admin') }}">Admin</a></li>
+      {% endif %}
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      {% if current_user.is_authenticated %}
+      <li class="nav-item"><a class="nav-link"
+          href="{{ url_for('profile_bp.user_profile') }}">{{current_user.firstname}}</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth_bp.logout') }}">Logout</a></li>
+      {% else %}
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth_bp.login') }}">Login</a></li>
+      {% endif %}
+    </ul>
+
+  </div>
+</nav>

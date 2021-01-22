@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block head %}
+
+{% if flag=='daily' %}
+<style type="text/css" media="print">
+    @media print {
+        @page {size: landscape; max-height: 100%; max-width: 100%; margin: 2cm;}
+    }
+</style>
+{% endif %}
+
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% if download %}
+    <h2 style="text-align:center">
+        <a href="{{ url_for('auth_bp.download', value=download) }}">Download Report</a>
+    </h2>
+    {% else %}
+    <h2 style="text-align:center">Regrading Report</h2>
+    {% endif %}
+    {% if flag=='daily' and records %}
+    <div class="table-responsive-sm">
+        <table class="table table-sm table-bordered">
+            <tr>
+                <td>Date: {{ records[0].get('date') or '' }}</td>
+                <td>Tasks:</td>
+                <td>Before job start</td>
+                <td>After job done</td>
+                <td>Initial</td>
+            </tr>
+            <tr>
+                <td>Report #:</td>
+                <td>Table Cleaned</td>
+                <td>Yes / No</td>
+                <td>Yes / No</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>New box used</td>
+                <td>Yes / No</td>
+                <td>If yes, is labelling correct?</td>
+                <td>Yes / No</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Reusable box?</td>
+                <td>Yes / No</td>
+                <td>If yes, use new liner & place right label.</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+    <div class="table-responsive-sm">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <col>
+                <colgroup span="3"></colgroup>
+                <colgroup span="2"></colgroup>
+                <colgroup span="3"></colgroup>
+                <colgroup span="4"></colgroup>
+                <tr>
+                    <td rowspan="2"></td>
+                    <th colspan="3" scope="colgroup" style="text-align:center">General</th>
+                    <th colspan="2" scope="colgroup" style="text-align:center">From</th>
+                    <th colspan="3" scope="colgroup" style="text-align:center">To</th>
+                    <th colspan="4" scope="colgroup" style="text-align:center">Time</th>
+                </tr>
+                <tr>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Lot</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Case</th>
+                    <th scope="col">Grade</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Case</th>
+                    <th scope="col">#worker</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">End</th>
+                    <th scope="col">Break</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in records %}
+                <tr>
+                    <th scope="row">
+                      {% if rec.get('product') and rec.get('id') %}
+                        {% if flag=='daily' %}
+                        <a href="{{ url_for('auth_bp.viewtask', id=rec['id']) }}">{{ rec['product'] }}</a>
+                        {% else %}
+                        {{ rec.get('date') }},<a href="{{ url_for('auth_bp.viewtask', id=rec['id']) }}">{{ rec['product'] }}</a>
+                        {% endif %}
+                      {% endif %}
+                    </th>
+                    <td>{{ rec.get('customer') or ''}}</td>
+                    <td>{{ rec.get('item') or '' }}</td>
+                    <td>{{ rec.get('lot') or '' }}</td>
+                    <td>{{ rec.get('size') or '' }}</td>
+                    <td>{{ rec.get('case') or '' }}</td>
+                    <td>{{ rec.get('grade') or '' }}</td>
+                    <td>{{ rec.get('nsize') or '' }}</td>
+                    <td>{{ rec.get('ncase') or '' }}</td>
+                    <td>{{ rec.get('workers') or '' }}</td>
+                    <td>{{ rec.get('start') or '' }}</td>
+                    <td>{{ rec.get('end') or '' }}</td>
+                    <td>{{ rec.get('breaks') or '' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if flag=='daily' %}
+        <p>Regraded by: <hr> </p>
+        <br>
+        <hr>
+        <br>
+        <hr>
+        {% endif %}
+    </div>
+</div> <!-- /container -->
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "nav.html" %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <h2 style="text-align:center">
+        {% if download %}
+        <a href="{{ url_for('auth_bp.download', value=download) }}">Summary list</a>
+        {% else %}
+        Summary list
+        {% endif %}
+    </h2>
+    <div class="table-responsive-sm">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">date</th>
+                    <th scope="col">product</th>
+                    <th scope="col">customer</th>
+                    <th scope="col">lot</th>
+                    <th scope="col">total in</th>
+                    <th scope="col">total out</th>
+                    <th scope="col">dump#</th>
+                    <th scope="col">total hrs</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in records %}
+                <tr>
+                    <td>
+                        {% if rec.get('date') and rec.get('id') %}
+                        <a href="{{ url_for('auth_bp.viewtask', id=rec['id']) }}">{{ rec['date'] }}</a>
+                        {% endif %}
+                    </td>
+                    <td>{{ rec.get('product') or ''}}</td>
+                    <td>{{ rec.get('customer') or ''}}</td>
+                    <td>{{ rec.get('lot') or '' }}</td>
+                    <td>{{ rec.get('oldcases') or '' }}</td>
+                    <td>{{ rec.get('newcases') or '' }}</td>
+                    <td>{{ rec.get('dumpcases') or '' }}</td>
+                    <td>{{ rec.get('hours') or '' }}  </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+{% endblock %}

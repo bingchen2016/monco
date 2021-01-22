@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% from "_render_field.html" import render_field %}
+
+{% block head %}
+<link href="{{ url_for('static', filename='css/taskform.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <h1>Regrade</h1>
+    <form>
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{ render_field(form.date, disabled=true) }}
+        </div>
+        <div><p><b>Original:</b></p></div>
+        <div class="form-inline">
+            {{ render_field(form.lot, disabled=true) }}
+            {{ render_field(form.product, disabled=true) }}
+        </div>
+        <div class="repeatme">
+            {% for nested in form.oldsizecases %}
+            <div class="form-inline">
+                {% for subfield in nested %}
+                {{ render_field(subfield, disabled=true) }}
+                {% endfor %}
+            </div>
+            {% endfor %} <!-- end of nested -->
+        </div> <!--end of repeatme oldsc -->
+        <br />
+        <div><p><b>Pack-Out:</b></p></div>
+        <div class="repeatme">
+            {% for nested in form.newsizecases %}
+            <div class="form-inline">
+                {% for subfield in nested %}
+                {{ render_field(subfield, disabled=true) }}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div> <!--end of repeatme newsc-->
+        <br />
+        <div><p><b>Labor:</b>  start/end 24h format: YYYY-MM-DD HH:MM</p>
+        </div>
+        <div class="repeatme">
+            {% for nested in form.labors %}
+            <div class="form-inline">
+                {% for subfield in nested %}
+                {{ render_field(subfield, disabled=true) }}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div> <!-- end of repeatme labor -->
+        <br />
+        <p>Note: see something not right? click <a href="{{ url_for('auth_bp.updatetask', id=id) }}">edit</a> to update it.</p>
+        <br />
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+.env
+*.pyc
+*.pyo
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+migrations
+env
+regrading/moncoregrad.db

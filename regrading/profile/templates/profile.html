@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+{% include "nav.html" %}
+
+<div class="container">
+  {% for message in get_flashed_messages() %}
+  <div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+  </div>
+  {% endfor %}
+
+  <div class="account-header">
+    <img class="user-avatar" src="{{ url_for('static', filename='img/avatar.png') }}" alt="profile">
+
+    <div class="account-details">
+      <div class="user-personal-info">
+        <h1 class="username">{{ user.firstname }} {{ user.lastname }}</h1>
+        <div class="user-meta">
+          <div><span class="meta-name">Email:</span> <span>{{ user.email }}</span></div>
+          <div><span class="meta-name">Address:</span> <span>{{ user.address }}</span></div>
+          <div><span class="meta-name">Phone number:</span> <span>{{ user.phone }}</span></div>
+        </div>
+        <div>
+          <div>
+            <a class="btn btn-primary" href="{{ url_for('profile_bp.changepassword') }}" role="button">change
+              password</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

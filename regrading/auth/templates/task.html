@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% from "_render_field.html" import render_field %}
+
+{% block head %}
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/taskform.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+{% include "nav.html" %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <h1>Regrade</h1>
+    {% if id %}
+    <form method="POST" action="/updatetask/{{ id }}">
+    {% else %}
+    <form method="POST" action="/regrade">
+    {% endif %}
+        {{ form.csrf_token }}
+        <div><p><b>Product info:</b></p></div>
+        <div class="form-inline">
+            {{ render_field(form.date) }}
+        </div>
+        <div class="form-inline">
+            {{ render_field(form.product) }}
+            {{ render_field(form.lot) }}
+            {{ render_field(form.item) }}
+            {{ render_field(form.customer) }}
+        </div>
+        <div><p><b>From:</b></p></div>
+        <div class="repeatme">
+            {% for nested in form.oldsizecases %}
+            <div class="form-inline">
+                {% for subfield in nested %}
+                {{ render_field(subfield) }}
+                {% endfor %}
+                <i class="fa fa-times del"></i>
+                <!-- here shows how js is created...
+                <label for="oldsizecases-{{ loop.index0 }}-size">Size</label>
+                <input id="oldsizecases-{{ loop.index0 }}-size" 
+                    name="oldsizecases-{{ loop.index0 }}-size" required type="text" 
+                    value="{{ nested.size.data or '' }}">
+                <label for="oldsizecases-{{ loop.index0 }}-case">Case#</label>
+                <input id="oldsizecases-{{ loop.index0 }}-case" 
+                    name="oldsizecases-{{ loop.index0 }}-case" required type="number"
+                    value="{{ nested.case.data or ''}}" min='1' max='5000'>
+                <i class="fa fa-times del"></i>
+                -->
+            </div>
+            {% endfor %} <!-- end of nested -->
+            <i class="fa fa-plus imgAdd"></i>
+        </div> <!--end of repeatme oldsc -->
+        <br />
+        <div><p><b>Pack-Out:</b></p></div>
+        <div class="repeatme">
+            {% for nested in form.newsizecases %}
+            <div class="form-inline">
+                {% for subfield in nested %}
+                {{ render_field(subfield) }}
+                {% endfor %}
+                <i class="fa fa-times del"></i>
+            </div>
+            {% endfor %}
+            <i class="fa fa-plus imgAdd"></i>
+        </div> <!--end of repeatme newsc-->
+        <br />
+        <div><p><b>Labor:</b></p>
+        </div>
+        <div class="repeatme">
+            {% for nested in form.labors %}
+            <div class="form-inline">
+                {% for subfield in nested %}
+                {{ render_field(subfield) }}
+                {% endfor %}
+                <i class="fa fa-times del"></i>
+            </div>
+            {% endfor %}
+            <i class="fa fa-plus imgAdd"></i>
+        </div> <!-- end of repeatme labor -->
+        <br />
+        {% if id %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+        {% else %}
+        <button type="submit" class="btn btn-primary" name='todo' value='submit'>Submit & Next</button>
+        <button type="submit" class="btn btn-primary" name='todo' value='finish'>Finish Today</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/task.js') }}"></script>
+{% endblock %}
