@@ -17,9 +17,9 @@
 
     <h1>Regrade</h1>
     {% if id %}
-    <form method="POST" action="/updatetask/{{ id }}">
+    <form method="POST" action="{{ url_for('auth_bp.updatetask', id=id) }}">
     {% else %}
-    <form method="POST" action="/regrade">
+    <form method="POST" action="{{ url_for('auth_bp.regrade') }}">
     {% endif %}
         {{ form.csrf_token }}
         <div><p><b>Product info:</b></p></div>

@@ -13,7 +13,7 @@
 
   <h2>Add a new {{ category }} </h2>
  
-  <form method="POST" action="/admin/itemadd/{{ category }}">
+  <form method="POST" action="{{ url_for('admin_bp.itemadd', category=category) }}">
     {{ form.csrf_token }}
     <div class="form-group w-50">
       {{ render_field(form.name, class='form-control') }}

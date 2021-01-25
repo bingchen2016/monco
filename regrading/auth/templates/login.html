@@ -16,7 +16,7 @@
 
   <h1>Log In</h1>
 
-  <form method="POST" action="/login" class="form" role="form">
+  <form method="POST" action="{{ url_for('auth_bp.login') }}" class="form" role="form">
     {{ form.csrf_token }}
 
     <div class="form-group w-50">

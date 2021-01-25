@@ -13,7 +13,7 @@
 
   <h2>Add a new user</h2>
 
-  <form method="POST" action="/admin/signup">
+  <form method="POST" action="{{ url_for('admin_bp.signup') }}">
     {{ form.csrf_token }}
     <div class="form-group w-50">
       {{ render_field(form.firstname, placeholder='John', class='form-control') }}

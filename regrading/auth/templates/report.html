@@ -14,7 +14,7 @@
 
   <h2>Report</h2>
   <div>
-    <form method="POST" action="/report">
+	  <form method="POST" action="{{ url_for('auth_bp.report') }}">
       {{ form.csrf_token }}
       <div class="form-group">
         {{ render_field(form.fromdate) }}

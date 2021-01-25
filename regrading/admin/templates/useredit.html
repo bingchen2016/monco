@@ -13,7 +13,7 @@
 
   <h2>Update user</h2>
 
-  <form method="POST" action="/admin/useredit/{{ user.id }}?reset={{ reset }}">
+  <form method="POST" action="{{ url_for('admin_bp.useredit', id=user.id) }}?reset={{ reset }}">
     {{ form.csrf_token }}
     {% if reset and reset == 'y' %}
     <div class="form-group w-50">

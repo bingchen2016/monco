@@ -36,9 +36,9 @@
                     <td>{{ user.active }}</td>
                     <td>{{ user.admin }}</td>
                     <td>
-                        <a href="{{ url_for('admin_bp.useredit') }}/{{ user.id }}">Edit</a>
+                        <a href="{{ url_for('admin_bp.useredit', id=user.id) }}">Edit</a>
                         <br>
-                        <a href="{{ url_for('admin_bp.useredit') }}/{{ user.id }}?reset=y">ResetPwd</a>
+                        <a href="{{ url_for('admin_bp.useredit', id=user.id) }}?reset=y">ResetPwd</a>
                     </td>
                 </tr>
                 {% endfor %}
